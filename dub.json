@@ -17,7 +17,7 @@
 			"targetType": "executable",
 			"targetName": "demo001",
 			"dependencies": {
-				"liberty-engine": "~master"
+				"liberty-engine": "~>0.0.15-beta.1"
 			},
 			"sourcePaths": ["demo001"],
 			"importPaths": ["demo001"],
@@ -51,7 +51,7 @@
 			"targetType": "executable",
 			"targetName": "demo002",
 			"dependencies": {
-				"liberty-engine": "~master"
+				"liberty-engine": "~>0.0.15-beta.1"
 			},
 			"sourcePaths": ["demo002"],
 			"importPaths": ["demo002"],
