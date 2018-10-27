@@ -9,14 +9,15 @@ final class Player : Actor {
   mixin(NodeBody);
 
   private {
-    BSPCube playerBody;
+    WorldObject tree;
+    Material squareMaterial;
+    Camera camera;
+    BSPCube[2] playerBody;
+
     float gravity = -80.0f;
     float jumpPower = 20.0f;
     float upSpeed = 0;
-
-    UISquare square;
-    Material pyramidMaterial;
-    Material squareMaterial;
+    float moveSpeed = 5.0f;
   }
 
   /**
@@ -24,18 +25,28 @@ final class Player : Actor {
    * If declared, it is called after all objects instantiation.
   **/
   override void start() {
-    pyramidMaterial = new Material("res/textures/mud.bmp");
+    tree = getScene().getTree();
     squareMaterial = new Material("res/textures/default2.bmp");
 
-    (square = spawn!UISquare("UISquare"))
-      .build(squareMaterial);
-    
-    (playerBody = spawn!BSPCube("Body"))
-      .build()
-      .getTransform()
-      .setPosition(0.0f, 5.0f, 0.0f);
+    (camera = spawn!Camera("MyCam"))
+      .setPreset(CameraPreset.getEmpty())
+      .lockMouseMove()
+      .registerToScene();
 
-    getScene().getActiveCamera().setMovementSpeed(10.0f).lockMouseMove();
+    foreach (i; 0..2)
+      (playerBody[i] = spawn!BSPCube("Body" ~ i.to!string))
+        .build()
+        .getTransform()
+        .setLocalPositionY(i)
+        .setPivotY(0.5f);
+
+    foreach (i; 0..50)
+      tree.spawn!BSPCube("Block" ~ i.to!string)
+        .build()
+        .getTransform()
+        .setWorldPositionX(uniform!"[]"(-19, 19))
+        .setWorldPositionZ(uniform!"[]"(-19, 19))
+        .setPivotY(0.5f);
   }
 
   /**
@@ -43,96 +54,57 @@ final class Player : Actor {
    * If declared, it is called every frame.
   **/
   override void update() {
-    updateMouseMode();
-    updateBody();
-
     if (Input.isKeyDown(KeyCode.T))
       GfxEngine.toggleWireframe();
 
-    if (Input.isKeyDown(KeyCode.ENTER))
-      playerBody.getRenderer().getModel().toggleMaterials([Material.getDefault()], [pyramidMaterial]);
+    updateMouseMode();
+    updateBody();
+    updatePhysics();
+  }
 
-    Vector3F terrainPoint = Input.getMousePicker().getCurrentTerrainPoint();
-
-    if (Input.isMouseButtonDown(MouseButton.LEFT) && !terrainPoint.x.isNaN() && !terrainPoint.y.isNaN() && !terrainPoint.z.isNaN())
-      playerBody.getTransform().setPosition(terrainPoint);
-
-    if (Input.isKeyHold(KeyCode.Z))
-      getScene().getActiveCamera().setPitch!"-="(1.0f);
-    if (Input.isKeyHold(KeyCode.X))
-      getScene().getActiveCamera().setPitch!"+="(1.0f);
-    if (Input.isKeyHold(KeyCode.N))
-      getScene().getActiveCamera().setYaw!"+="(1.0f);
-    if (Input.isKeyHold(KeyCode.M))
-      getScene().getActiveCamera().setYaw!"-="(1.0f);
-
-    if (Input.isKeyHold(KeyCode.R))
-      (spawnOnce!BSPPyramid("Pyramid"))
-        .getTransform()
-        .setPositionX!"+="(2.0f * Time.getDelta());
-
-    // not working
-    if (Input.isKeyDown(KeyCode.O)) {
-      getScene()
-        .getTree()
-        .getChild!Terrain("DemoTerrain")
-          .getRenderer()
-          .getModel()
-          .getMaterials()
-          .map!(e => e.getTexture().setLODBias!"+="(0.1f));
-      
-      playerBody
-        .getRenderer()
-        .getModel()
-        .getMaterials()
-        .map!(e => e.getTexture().setLODBias!"+="(0.1f));
+  private void updateMouseMode() {
+    if (Input.isMouseButtonHold(MouseButton.RIGHT)) {
+      camera.unlockMouseMove();
+      Input.setMode(CursorType.DISABLED);
+    }
+    
+    if (Input.isMouseButtonUp(MouseButton.RIGHT)) {
+      camera.lockMouseMove();
+      Input.setMode(CursorType.NORMAL);
     }
   }
 
   private void updateBody() {
     const float deltaTime = Time.getDelta();
-    const float cameraSpeed = getScene().getActiveCamera().getMovementSpeed();
 
-    if (Input.isKeyHold(KeyCode.LEFT))
-      playerBody.getTransform().setPosition!"+="(-cameraSpeed * deltaTime, 0.0f, 0.0f);
+    if (Input.isKeyHold(KeyCode.A))
+      getTransform().setWorldPositionX!"+="(-moveSpeed * deltaTime);
 
-    if (Input.isKeyHold(KeyCode.RIGHT))
-      playerBody.getTransform().setPosition!"+="(cameraSpeed * deltaTime, 0.0f, 0.0f);
+    if (Input.isKeyHold(KeyCode.D))
+      getTransform().setWorldPositionX!"+="(moveSpeed * deltaTime);
     
-    if (Input.isKeyHold(KeyCode.UP))
-      playerBody.getTransform().setPosition!"+="(0.0f, 0.0f, -cameraSpeed * deltaTime);
+    if (Input.isKeyHold(KeyCode.W))
+      getTransform().setWorldPositionZ!"+="(-moveSpeed * deltaTime);
 
-    if (Input.isKeyHold(KeyCode.DOWN))
-      playerBody.getTransform().setPosition!"+="(0.0f, 0.0f, cameraSpeed * deltaTime);
+    if (Input.isKeyHold(KeyCode.S))
+      getTransform().setWorldPositionZ!"+="(moveSpeed * deltaTime);
 
-    if (Input.isKeyDown(KeyCode.SPACE))
-      jump();
+    if (Input.isKeyHold(KeyCode.SPACE) && !upSpeed)
+      upSpeed = jumpPower;
+  }
 
+  private void updatePhysics() {
+    const float deltaTime = Time.getDelta();
     upSpeed += gravity * deltaTime;
-    playerBody.getTransform().setPosition!"+="(0.0f, upSpeed * deltaTime, 0.0f);
+    getTransform().setWorldPositionY!"+="(upSpeed * deltaTime);
+    const Vector3F worldPos = getTransform().getWorldPosition();
+
+    const float terrainHeight = tree.getChild!Terrain("DemoTerrain")
+      .getHeight(worldPos.x, worldPos.z);
     
-    const float terrainHeight = getScene().getTree().getChild!Terrain("DemoTerrain")
-      .getHeight(playerBody.getTransform().getWorldPosition().x, playerBody.getTransform().getWorldPosition().z) + 0.5f;
-    
-    if (playerBody.getTransform().getWorldPosition().y < terrainHeight) {
+    if (worldPos.y < terrainHeight) {
       upSpeed = 0;
-      playerBody.getTransform().setPositionY(terrainHeight);
+      getTransform().setWorldPositionY(terrainHeight);
     }
-  }
-
-  private void updateMouseMode() {
-    if (Input.isMouseButtonHold(MouseButton.RIGHT)) {
-      getScene().getActiveCamera().unlockMouseMove();
-      Input.setMode(CursorType.DISABLED);
-    }
-    
-    if (Input.isMouseButtonUp(MouseButton.RIGHT)) {
-      getScene().getActiveCamera().lockMouseMove();
-      Input.setMode(CursorType.NORMAL);
-    }
-  }
-
-  private void jump() {
-    upSpeed = jumpPower;
   }
 }

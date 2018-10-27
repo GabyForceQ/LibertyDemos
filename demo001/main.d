@@ -28,7 +28,7 @@ void libertyMain() {
     .getScene()
     .getTree()
     .spawn!PointLight("DemoPointLight2")
-    .setColor(Vector3F(0.0f, 0.0f, 1.0f))
+    .setColor(Vector3F(1.0f, 1.0f, 1.0f))
     .getScene()
     .getTree()
     .spawn!Player("Player", false)
@@ -36,5 +36,5 @@ void libertyMain() {
     .register();
 
   CoreEngine.enableVSync();
-  Platform.getWindow().setFullscreen(true);
+  //Platform.getWindow().setFullscreen(true);
 }
