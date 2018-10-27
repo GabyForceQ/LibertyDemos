@@ -18,6 +18,7 @@ final class Player : Actor {
     float jumpPower = 20.0f;
     float upSpeed = 0;
     float moveSpeed = 5.0f;
+    bool onGround;
   }
 
   /**
@@ -89,7 +90,7 @@ final class Player : Actor {
     if (Input.isKeyHold(KeyCode.S))
       getTransform().setWorldPositionZ!"+="(moveSpeed * deltaTime);
 
-    if (Input.isKeyHold(KeyCode.SPACE) && !upSpeed)
+    if (Input.isKeyHold(KeyCode.SPACE) && onGround)
       upSpeed = jumpPower;
   }
 
@@ -101,8 +102,11 @@ final class Player : Actor {
 
     const float terrainHeight = tree.getChild!Terrain("DemoTerrain")
       .getHeight(worldPos.x, worldPos.z);
+
+    onGround = false;
     
     if (worldPos.y < terrainHeight) {
+      onGround = true;
       upSpeed = 0;
       getTransform().setWorldPositionY(terrainHeight);
     }
