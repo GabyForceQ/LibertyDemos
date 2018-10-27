@@ -33,9 +33,7 @@ final class Player : Actor {
     pyramidMaterial = new Material("res/textures/mud.bmp");
     squareMaterial = new Material("res/textures/default2.bmp");
 
-    //(camera = spawn!Camera("MyCam"))
-    //  .setMovementSpeed(10.0f)
-    //  .registerToScene();
+    getScene().getActiveCamera().getTransform().setWorldPositionY(3.0f);
     
     (playerBody = spawn!BSPPyramid("Body"))
       .build()
