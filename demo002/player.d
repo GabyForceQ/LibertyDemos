@@ -10,9 +10,11 @@ final class Player : Actor {
 
   private {
     WorldObject tree;
+    Material pyramidMaterial;
     Material squareMaterial;
     Camera camera;
-    BSPCube[2] playerBody;
+    BSPPyramid playerBody;
+    UISquare square;
 
     float gravity = -80.0f;
     float jumpPower = 20.0f;
@@ -28,27 +30,22 @@ final class Player : Actor {
   **/
   override void start() {
     tree = getScene().getTree();
+    pyramidMaterial = new Material("res/textures/mud.bmp");
     squareMaterial = new Material("res/textures/default2.bmp");
 
-    (camera = spawn!Camera("MyCam"))
-      .setPreset(CameraPreset.getEmpty())
-      .lockMouseMove()
-      .registerToScene();
+    //(camera = spawn!Camera("MyCam"))
+    //  .setMovementSpeed(10.0f)
+    //  .registerToScene();
+    
+    (playerBody = spawn!BSPPyramid("Body"))
+      .build()
+      .getTransform()
+      .setPivotY(0.5f);
 
-    foreach (i; 0..2)
-      (playerBody[i] = spawn!BSPCube("Body" ~ i.to!string))
-        .build()
-        .getTransform()
-        .setLocalPositionY(i)
-        .setPivotY(0.5f);
+    (square = spawn!UISquare("UISquare"))
+      .build(squareMaterial);
 
-    foreach (i; 0..50)
-      tree.spawn!BSPCube("Block" ~ i.to!string)
-        .build()
-        .getTransform()
-        .setWorldPositionX(uniform!"[]"(-19, 19))
-        .setWorldPositionZ(uniform!"[]"(-19, 19))
-        .setPivotY(0.5f);
+    Input.setMode(CursorType.DISABLED);
   }
 
   /**
@@ -59,9 +56,26 @@ final class Player : Actor {
     if (Input.isKeyDown(KeyCode.T))
       GfxEngine.toggleWireframe();
 
-    updateMouseMode();
+    if (Input.isKeyDown(KeyCode.B))
+      spawnOnce!BSPCube("cube")
+        .getTransform()
+        .setLocalPositionY(1.0f)
+        .setPivotY(0.5f);
+
     updateBody();
     updatePhysics();
+
+    if (Input.isKeyDown(KeyCode.ENTER)) {
+      playerBody
+        .getRenderer()
+        .getModel()
+        .toggleMaterials([Material.getDefault()], [pyramidMaterial]);
+      if (getChild!BSPCube("cube") !is null)
+        getChild!BSPCube("cube")
+          .getRenderer()
+          .getModel()
+          .toggleMaterials([Material.getDefault()], [pyramidMaterial]);
+    }
 
     if (getTransform().getWorldPosition().y < killZ)
       CoreEngine.pause();
@@ -70,31 +84,19 @@ final class Player : Actor {
       Platform.getWindow().setFullscreen(true);
   }
 
-  private void updateMouseMode() {
-    if (Input.isMouseButtonHold(MouseButton.RIGHT)) {
-      camera.unlockMouseMove();
-      Input.setMode(CursorType.DISABLED);
-    }
-    
-    if (Input.isMouseButtonUp(MouseButton.RIGHT)) {
-      camera.lockMouseMove();
-      Input.setMode(CursorType.NORMAL);
-    }
-  }
-
   private void updateBody() {
     const float deltaTime = Time.getDelta();
 
-    if (Input.isKeyHold(KeyCode.A))
+    if (Input.isKeyHold(KeyCode.LEFT))
       getTransform().setWorldPositionX!"+="(-moveSpeed * deltaTime);
 
-    if (Input.isKeyHold(KeyCode.D))
+    if (Input.isKeyHold(KeyCode.RIGHT))
       getTransform().setWorldPositionX!"+="(moveSpeed * deltaTime);
     
-    if (Input.isKeyHold(KeyCode.W))
+    if (Input.isKeyHold(KeyCode.UP))
       getTransform().setWorldPositionZ!"+="(-moveSpeed * deltaTime);
 
-    if (Input.isKeyHold(KeyCode.S))
+    if (Input.isKeyHold(KeyCode.DOWN))
       getTransform().setWorldPositionZ!"+="(moveSpeed * deltaTime);
 
     if (Input.isKeyHold(KeyCode.SPACE) && onGround)

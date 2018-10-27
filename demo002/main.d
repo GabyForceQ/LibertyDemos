@@ -2,7 +2,7 @@ module main;
 
 import liberty.engine;
 
-import player : Player;
+import player;
 
 mixin(EngineRun);
 
@@ -15,12 +15,12 @@ void libertyMain() {
   new Scene("Scene")
     .getTree()
     .spawn!Terrain("DemoTerrain")
-    .build(40.0f, 0.0f, [
-      new Material("res/textures/default.bmp"),
+    .build(800.0f, 20.0f, [
+      new Material("res/textures/grass.bmp"),
       new Material("res/textures/blendMap.bmp"),
-      new Material("res/textures/default.bmp"),
-      new Material("res/textures/default.bmp"),
-      new Material("res/textures/default.bmp")
+      new Material("res/textures/mud.bmp"),
+      new Material("res/textures/grassFlowers.bmp"),
+      new Material("res/textures/path.bmp")
     ])
     .getScene()
     .getTree()
