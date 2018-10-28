@@ -8,9 +8,9 @@ You will find the executables in bin/windows../
 
 #### Demo 001 controls:
 * Camera look around: Hold (Right Mouse Button) and move arround with (Mouse Move).
-* Camera zoom: Zoom-in and zoom-out with (Mouse scroll).
-* Player move: Hold (W-A-S-D keys).
-* Player jump: Press/Hold (Space key).
+* Camera zoom: Zoom-in and zoom-out with (Mouse Scroll).
+* Player move: Hold (W-A-S-D Keys).
+* Player jump: Press/Hold (Space Key).
 * Toggle wireframe: Press (T Key).
 * Toggle fullscreen: Press (F Key).
 
@@ -18,11 +18,11 @@ You will find the executables in bin/windows../
 
 #### Demo 002 controls:
 * Camera look around: Move arround with (Mouse Move).
-* Camera zoom: Zoom-in and zoom-out with (Mouse scroll).
-* Player move: Hold (UP-LEFT-DOWN-RIGHT keys).
-* Player jump: Press/Hold (Space key).
-* Spawn new object: Press (B key).
-* Toggle player materials: Press (Enter key).
+* Camera zoom: Zoom-in and zoom-out with (Mouse Scroll).
+* Player move: Hold (UP-LEFT-DOWN-RIGHT Keys).
+* Player jump: Press/Hold (Space Key).
+* Spawn new object: Press (B Key).
+* Toggle player materials: Press (Enter Key).
 * Toggle wireframe: Press (T Key).
 * Toggle fullscreen: Press (F Key).
 
