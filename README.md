@@ -13,6 +13,7 @@ You will find the executables in bin/windows../
 * Player jump: Press/Hold (Space key).
 * Toggle wireframe: Press (T Key).
 * Toggle fullscreen: Press (F Key).
+
 ![](images/demo001.png?raw=true "Demo001.")
 
 #### Demo 002 controls:
@@ -24,6 +25,7 @@ You will find the executables in bin/windows../
 * Toggle player materials: Press (Enter key).
 * Toggle wireframe: Press (T Key).
 * Toggle fullscreen: Press (F Key).
+
 ![](images/demo002.png?raw=true "Demo002.")
 
 You can find Liberty Engine 0.0.15 at this link on github:
