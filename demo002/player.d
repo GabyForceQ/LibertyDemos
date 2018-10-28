@@ -79,7 +79,7 @@ final class Player : Actor {
       CoreEngine.pause();
 
     if (Input.isKeyDown(KeyCode.F))
-      Platform.getWindow().setFullscreen(true);
+      Platform.getWindow().toggleFullscreen();
   }
 
   private void updateBody() {
