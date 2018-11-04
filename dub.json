@@ -17,7 +17,7 @@
 			"targetType": "executable",
 			"targetName": "demo001",
 			"dependencies": {
-				"liberty-engine": "~>0.0.15"
+				"liberty-engine": "~master"
 			},
 			"sourcePaths": ["demo001"],
 			"importPaths": ["demo001"],
@@ -51,10 +51,44 @@
 			"targetType": "executable",
 			"targetName": "demo002",
 			"dependencies": {
-				"liberty-engine": "~>0.0.15"
+				"liberty-engine": "~master"
 			},
 			"sourcePaths": ["demo002"],
 			"importPaths": ["demo002"],
+			"configurations": [
+				{
+					"name": "windows-desktop-32",
+					"copyFiles-windows-x86": [
+						"lib/windows_x86/FreeImage.dll",
+						"lib/windows_x86/glfw3.dll",
+						"res"
+					],
+					"targetType": "executable",
+					"targetPath": "bin/windows_x86",
+					"platforms": ["windows"]
+				},
+				{
+					"name": "windows-desktop-64",
+					"copyFiles-windows-x86_64": [
+						"lib/windows_x64/FreeImage.dll",
+						"lib/windows_x64/glfw3.dll",
+						"res"
+					],
+					"targetType": "executable",
+					"targetPath": "bin/windows_x64",
+					"platforms": ["windows"]
+				}
+			]
+    },
+    {
+			"name": "demo003",
+			"targetType": "executable",
+			"targetName": "demo003",
+			"dependencies": {
+				"liberty-engine": "~master"
+			},
+			"sourcePaths": ["demo003"],
+			"importPaths": ["demo003"],
 			"configurations": [
 				{
 					"name": "windows-desktop-32",

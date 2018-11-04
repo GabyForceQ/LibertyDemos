@@ -9,7 +9,7 @@ final class Player : Actor {
   mixin(NodeBody);
 
   private {
-    WorldObject tree;
+    SceneNode tree;
     Material squareMaterial;
     Camera camera;
     BSPCube[2] playerBody;

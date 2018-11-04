@@ -9,17 +9,15 @@ final class Player : Actor {
   mixin(NodeBody);
 
   private {
-    WorldObject tree;
+    SceneNode tree;
     Material pyramidMaterial;
-    Material squareMaterial;
     Camera camera;
     BSPPyramid playerBody;
-    UISquare square;
 
     float gravity = -80.0f;
     float jumpPower = 20.0f;
     float upSpeed = 0;
-    float moveSpeed = 5.0f;
+    float moveSpeed = 0.2f;
     bool onGround;
     int killZ = -10;
   }
@@ -31,7 +29,6 @@ final class Player : Actor {
   override void start() {
     tree = getScene().getTree();
     pyramidMaterial = new Material("res/textures/mud.bmp");
-    squareMaterial = new Material("res/textures/default2.bmp");
 
     getScene().getActiveCamera().getTransform().setWorldPositionY(3.0f);
     
@@ -39,9 +36,6 @@ final class Player : Actor {
       .build()
       .getTransform()
       .setPivotY(0.5f);
-
-    (square = spawn!UISquare("UISquare"))
-      .build(squareMaterial);
 
     Input.setMode(CursorType.DISABLED);
   }
@@ -53,12 +47,6 @@ final class Player : Actor {
   override void update() {
     if (Input.isKeyDown(KeyCode.T))
       GfxEngine.toggleWireframe();
-
-    if (Input.isKeyDown(KeyCode.B))
-      spawnOnce!BSPCube("cube")
-        .getTransform()
-        .setLocalPositionY(1.0f)
-        .setPivotY(0.5f);
 
     updateBody();
     updatePhysics();
