@@ -5,14 +5,13 @@ import liberty.engine;
 /**
  * Example class for player.
 **/
-final class Player : Actor {
+final class Player : SceneNode {
   mixin(NodeBody);
 
   private {
     SceneNode tree;
-    Material squareMaterial;
     Camera camera;
-    BSPCube[2] playerBody;
+    BSPCube[3] playerBody;
 
     float gravity = -80.0f;
     float jumpPower = 20.0f;
@@ -28,27 +27,30 @@ final class Player : Actor {
   **/
   override void start() {
     tree = getScene().getTree();
-    squareMaterial = new Material("res/textures/default2.bmp");
 
     (camera = spawn!Camera("MyCam"))
       .setPreset(CameraPreset.getEmpty())
-      .lockMouseMove()
+      .setMouseMoveLocked()
       .registerToScene();
 
-    foreach (i; 0..2)
+    foreach (i; 0..3)
       (playerBody[i] = spawn!BSPCube("Body" ~ i.to!string))
         .build()
         .getTransform()
-        .setLocalPositionY(i)
-        .setPivotY(0.5f);
+        .setRelativeLocationY(i)
+        .setPivotY(-0.5f);
+    
+    playerBody[1]
+      .getTransform()
+      .rotateYaw(45.0f);
 
     foreach (i; 0..50)
       tree.spawn!BSPCube("Block" ~ i.to!string)
         .build()
         .getTransform()
-        .setWorldPositionX(uniform!"[]"(-19, 19))
-        .setWorldPositionZ(uniform!"[]"(-19, 19))
-        .setPivotY(0.5f);
+        .setAbsoluteLocationX(uniform!"[]"(-19, 19))
+        .setAbsoluteLocationZ(uniform!"[]"(-19, 19))
+        .setPivotY(-0.5f);
   }
 
   /**
@@ -56,6 +58,8 @@ final class Player : Actor {
    * If declared, it is called every frame.
   **/
   override void update() {
+    //Logger.exception(getScene().getId());
+
     if (Input.isKeyDown(KeyCode.T))
       GfxEngine.toggleWireframe();
 
@@ -63,7 +67,7 @@ final class Player : Actor {
     updateBody();
     updatePhysics();
 
-    if (getTransform().getWorldPosition().y < killZ)
+    if (getTransform().getAbsoluteLocation().y < killZ)
       CoreEngine.pause();
 
     if (Input.isKeyDown(KeyCode.F))
@@ -72,12 +76,12 @@ final class Player : Actor {
 
   private void updateMouseMode() {
     if (Input.isMouseButtonHold(MouseButton.RIGHT)) {
-      camera.unlockMouseMove();
+      camera.setMouseMoveLocked(false);
       Input.setMode(CursorType.DISABLED);
     }
     
     if (Input.isMouseButtonUp(MouseButton.RIGHT)) {
-      camera.lockMouseMove();
+      camera.setMouseMoveLocked();
       Input.setMode(CursorType.NORMAL);
     }
   }
@@ -85,17 +89,51 @@ final class Player : Actor {
   private void updateBody() {
     const float deltaTime = Time.getDelta();
 
-    if (Input.isKeyHold(KeyCode.A))
-      getTransform().setWorldPositionX!"+="(-moveSpeed * deltaTime);
+    if (Input.isKeyHold(KeyCode.A)) {
+      getTransform().setAbsoluteLocationX!"+="(-moveSpeed * deltaTime);
+      playerBody[1]
+        .getTransform()
+        .rotateYaw!"-="(300.0f * deltaTime);
+    }
 
-    if (Input.isKeyHold(KeyCode.D))
-      getTransform().setWorldPositionX!"+="(moveSpeed * deltaTime);
+    if (Input.isKeyHold(KeyCode.D)) {
+      getTransform().setAbsoluteLocationX!"+="(moveSpeed * deltaTime);
+      playerBody[1]
+        .getTransform()
+        .rotateYaw!"+="(300.0f * deltaTime);
+    }
     
     if (Input.isKeyHold(KeyCode.W))
-      getTransform().setWorldPositionZ!"+="(-moveSpeed * deltaTime);
+      getTransform().setAbsoluteLocationZ!"+="(-moveSpeed * deltaTime);
 
     if (Input.isKeyHold(KeyCode.S))
-      getTransform().setWorldPositionZ!"+="(moveSpeed * deltaTime);
+      getTransform().setAbsoluteLocationZ!"+="(moveSpeed * deltaTime);
+
+    if (Input.isKeyHold(KeyCode.NUM_1))
+      getTransform().rotateYaw!"+="(1.0f);
+    if (Input.isKeyHold(KeyCode.NUM_2))
+      getTransform().rotatePitch!"+="(1.0f);
+    if (Input.isKeyHold(KeyCode.NUM_3))
+      getTransform().rotateRoll!"+="(1.0f);
+
+    if (Input.isKeyHold(KeyCode.NUM_4))
+      getTransform().setAbsoluteScale!"+="(1.0f * deltaTime);
+    if (Input.isKeyHold(KeyCode.NUM_5))
+      getTransform().setAbsoluteScale!"-="(1.0f * deltaTime);
+
+    if (Input.isKeyHold(KeyCode.NUM_6))
+      camera.setZNear!"+="(3.0f * deltaTime);
+    if (Input.isKeyHold(KeyCode.NUM_7))
+      camera.setZNear!"-="(3.0f * deltaTime);
+
+    if (Input.isKeyHold(KeyCode.NUM_8))
+      camera.setZFar(20.0f);
+
+    if (Input.isKeyHold(KeyCode.NUM_9))
+      camera.setFieldOfView!"+="(20.0f * deltaTime);
+
+    if (Input.isKeyHold(KeyCode.NUM_0))
+      camera.setFieldOfView!"-="(20.0f * deltaTime);
 
     if (Input.isKeyHold(KeyCode.SPACE) && onGround)
       upSpeed = jumpPower;
@@ -104,10 +142,10 @@ final class Player : Actor {
   private void updatePhysics() {
     const float deltaTime = Time.getDelta();
     upSpeed += gravity * deltaTime;
-    getTransform().setWorldPositionY!"+="(upSpeed * deltaTime);
-    const Vector3F worldPos = getTransform().getWorldPosition();
+    getTransform().setAbsoluteLocationY!"+="(upSpeed * deltaTime);
+    const Vector3F worldPos = getTransform().getAbsoluteLocation();
 
-    const float terrainHeight = tree.getChild!Terrain("DemoTerrain")
+    const float terrainHeight = tree.getChild!Terrain("Demo001Terrain")
       .getHeight(worldPos.x, worldPos.z);
 
     onGround = false;
@@ -115,7 +153,7 @@ final class Player : Actor {
     if (worldPos.y < terrainHeight) {
       onGround = true;
       upSpeed = 0;
-      getTransform().setWorldPositionY(terrainHeight);
+      getTransform().setAbsoluteLocationY(terrainHeight);
     }
   }
 }

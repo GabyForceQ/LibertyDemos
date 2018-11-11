@@ -12,7 +12,7 @@ mixin(EngineRun);
  * then register the scene to the engine.
 **/
 void libertyMain() {
-  new Scene("Scene")
+  new Scene(new SceneSerializer("res/demo002.lyasset"))
     .getTree()
     .spawn!Terrain("DemoTerrain")
     .build(800.0f, 20.0f, [
@@ -22,13 +22,6 @@ void libertyMain() {
       new Material("res/textures/grassFlowers.bmp"),
       new Material("res/textures/path.bmp")
     ])
-    .getScene()
-    .getTree()
-    .spawn!PointLight("DemoPointLight")
-    .getScene()
-    .getTree()
-    .spawn!PointLight("DemoPointLight2")
-    .setColor(Vector3F(1.0f, 1.0f, 1.0f))
     .getScene()
     .getTree()
     .spawn!Player("Player", false)

@@ -25,7 +25,6 @@
 				{
 					"name": "windows-desktop-32",
 					"copyFiles-windows-x86": [
-						"lib/windows_x86/FreeImage.dll",
 						"lib/windows_x86/glfw3.dll",
 						"res"
 					],
@@ -36,7 +35,6 @@
 				{
 					"name": "windows-desktop-64",
 					"copyFiles-windows-x86_64": [
-						"lib/windows_x64/FreeImage.dll",
 						"lib/windows_x64/glfw3.dll",
 						"res"
 					],
@@ -59,7 +57,6 @@
 				{
 					"name": "windows-desktop-32",
 					"copyFiles-windows-x86": [
-						"lib/windows_x86/FreeImage.dll",
 						"lib/windows_x86/glfw3.dll",
 						"res"
 					],
@@ -70,7 +67,6 @@
 				{
 					"name": "windows-desktop-64",
 					"copyFiles-windows-x86_64": [
-						"lib/windows_x64/FreeImage.dll",
 						"lib/windows_x64/glfw3.dll",
 						"res"
 					],
@@ -93,7 +89,6 @@
 				{
 					"name": "windows-desktop-32",
 					"copyFiles-windows-x86": [
-						"lib/windows_x86/FreeImage.dll",
 						"lib/windows_x86/glfw3.dll",
 						"res"
 					],
@@ -104,7 +99,70 @@
 				{
 					"name": "windows-desktop-64",
 					"copyFiles-windows-x86_64": [
-						"lib/windows_x64/FreeImage.dll",
+						"lib/windows_x64/glfw3.dll",
+						"res"
+					],
+					"targetType": "executable",
+					"targetPath": "bin/windows_x64",
+					"platforms": ["windows"]
+				}
+			]
+    },
+    {
+			"name": "demo004",
+			"targetType": "executable",
+			"targetName": "demo004",
+			"dependencies": {
+				"liberty-engine": "~master"
+			},
+			"sourcePaths": ["demo004"],
+			"importPaths": ["demo004"],
+			"configurations": [
+				{
+					"name": "windows-desktop-32",
+					"copyFiles-windows-x86": [
+						"lib/windows_x86/glfw3.dll",
+						"res"
+					],
+					"targetType": "executable",
+					"targetPath": "bin/windows_x86",
+					"platforms": ["windows"]
+				},
+				{
+					"name": "windows-desktop-64",
+					"copyFiles-windows-x86_64": [
+						"lib/windows_x64/glfw3.dll",
+						"res"
+					],
+					"targetType": "executable",
+					"targetPath": "bin/windows_x64",
+					"platforms": ["windows"]
+				}
+			]
+    },
+    {
+			"name": "demo005",
+			"targetType": "executable",
+			"targetName": "demo005",
+			"dependencies": {
+				"liberty-engine": "~master"
+			},
+			"sourcePaths": ["demo005"],
+			"importPaths": ["demo005"],
+			"configurations": [
+				{
+					"name": "windows-desktop-32",
+					"copyFiles-windows-x86": [
+						"lib/windows_x86/glfw3.dll",
+						"res"
+					],
+					"targetType": "executable",
+					"targetPath": "bin/windows_x86",
+					"platforms": ["windows"]
+				},
+				{
+					"name": "windows-desktop-64",
+					"copyFiles-windows-x86_64": [
 						"lib/windows_x64/glfw3.dll",
 						"res"
 					],

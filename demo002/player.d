@@ -5,7 +5,7 @@ import liberty.engine;
 /**
  * Example class for player.
 **/
-final class Player : Actor {
+final class Player : SceneNode {
   mixin(NodeBody);
 
   private {
@@ -17,7 +17,7 @@ final class Player : Actor {
     float gravity = -80.0f;
     float jumpPower = 20.0f;
     float upSpeed = 0;
-    float moveSpeed = 0.2f;
+    float moveSpeed = 2.0f;
     bool onGround;
     int killZ = -10;
   }
@@ -30,12 +30,12 @@ final class Player : Actor {
     tree = getScene().getTree();
     pyramidMaterial = new Material("res/textures/mud.bmp");
 
-    getScene().getActiveCamera().getTransform().setWorldPositionY(3.0f);
+    getScene().getActiveCamera().getTransform().setAbsoluteLocationY(3.0f);
     
     (playerBody = spawn!BSPPyramid("Body"))
       .build()
       .getTransform()
-      .setPivotY(0.5f);
+      .setPivotY(-0.5f);
 
     Input.setMode(CursorType.DISABLED);
   }
@@ -63,7 +63,7 @@ final class Player : Actor {
           .toggleMaterials([Material.getDefault()], [pyramidMaterial]);
     }
 
-    if (getTransform().getWorldPosition().y < killZ)
+    if (getTransform().getAbsoluteLocation().y < killZ)
       CoreEngine.pause();
 
     if (Input.isKeyDown(KeyCode.F))
@@ -74,16 +74,16 @@ final class Player : Actor {
     const float deltaTime = Time.getDelta();
 
     if (Input.isKeyHold(KeyCode.LEFT))
-      getTransform().setWorldPositionX!"+="(-moveSpeed * deltaTime);
+      getTransform().setAbsoluteLocationX!"+="(-moveSpeed * deltaTime);
 
     if (Input.isKeyHold(KeyCode.RIGHT))
-      getTransform().setWorldPositionX!"+="(moveSpeed * deltaTime);
+      getTransform().setAbsoluteLocationX!"+="(moveSpeed * deltaTime);
     
     if (Input.isKeyHold(KeyCode.UP))
-      getTransform().setWorldPositionZ!"+="(-moveSpeed * deltaTime);
+      getTransform().setAbsoluteLocationZ!"+="(-moveSpeed * deltaTime);
 
     if (Input.isKeyHold(KeyCode.DOWN))
-      getTransform().setWorldPositionZ!"+="(moveSpeed * deltaTime);
+      getTransform().setAbsoluteLocationZ!"+="(moveSpeed * deltaTime);
 
     if (Input.isKeyHold(KeyCode.SPACE) && onGround)
       upSpeed = jumpPower;
@@ -92,8 +92,8 @@ final class Player : Actor {
   private void updatePhysics() {
     const float deltaTime = Time.getDelta();
     upSpeed += gravity * deltaTime;
-    getTransform().setWorldPositionY!"+="(upSpeed * deltaTime);
-    const Vector3F worldPos = getTransform().getWorldPosition();
+    getTransform().setAbsoluteLocationY!"+="(upSpeed * deltaTime);
+    const Vector3F worldPos = getTransform().getAbsoluteLocation();
 
     const float terrainHeight = tree.getChild!Terrain("DemoTerrain")
       .getHeight(worldPos.x, worldPos.z);
@@ -103,7 +103,7 @@ final class Player : Actor {
     if (worldPos.y < terrainHeight) {
       onGround = true;
       upSpeed = 0;
-      getTransform().setWorldPositionY(terrainHeight);
+      getTransform().setAbsoluteLocationY(terrainHeight);
     }
   }
 }

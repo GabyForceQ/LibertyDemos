@@ -12,16 +12,7 @@ mixin(EngineRun);
  * then register the scene to the engine.
 **/
 void libertyMain() {
-  new Scene("Scene")
-    .getTree()
-    .getScene()
-    .getTree()
-    .spawn!PointLight("DemoPointLight")
-    .getScene()
-    .getTree()
-    .spawn!PointLight("DemoPointLight2")
-    .setColor(Vector3F(1.0f, 1.0f, 1.0f))
-    .getScene()
+  new Scene(new SceneSerializer("res/demo003.lyasset"))
     .getTree()
     .spawn!HUD("DemoHUD", false)
     .getScene()

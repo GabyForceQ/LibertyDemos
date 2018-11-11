@@ -1,0 +1,3 @@
+id: Demo002Scene
+PointLight: { id: Demo002PointLight1 }
+PointLight: { id: Demo002PointLight2 }

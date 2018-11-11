@@ -5,7 +5,7 @@ import liberty.engine;
 /**
  * Example class for player.
 **/
-final class HUD : Frame {
+final class HUD : Surface {
   mixin(NodeBody);
   mixin(ListenerBody);
 
@@ -26,7 +26,7 @@ final class HUD : Frame {
     buttonMaterial = new Material("res/textures/default2.bmp");
     button = new Button("Button1", this);
 
-    getScene().getActiveCamera().lockMouseMove();
+    getScene().getActiveCamera().setMouseMoveLocked();
     startListening();
   }
 
@@ -43,8 +43,8 @@ final class HUD : Frame {
   private void spawnCube() {
     spawnOnce!BSPCube("cube")
       .getTransform()
-      .setLocalPositionY(1.0f)
-      .setPivotY(0.5f);
+      .setRelativeLocationY(1.0f)
+      .setPivotY(-0.5f);
   }
 
   /**
