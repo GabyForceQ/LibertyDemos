@@ -6,7 +6,7 @@ import liberty.engine;
  * Example class for player.
 **/
 final class Player : SceneNode {
-  mixin SceneNodeBody;
+  mixin NodeConstructor;
 
   private {
     SceneNode tree;

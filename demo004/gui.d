@@ -6,7 +6,7 @@ import liberty.engine;
  * Example class for HUD.
 **/
 final class HUD : Surface {
-  mixin SceneNodeBody;
+  mixin NodeConstructor;
 
   private {
     TileMap tileMap;

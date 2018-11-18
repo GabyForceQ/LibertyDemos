@@ -6,7 +6,7 @@ import liberty.engine;
  * Example class for player.
 **/
 final class HUD : Surface {
-  mixin SceneNodeBody;
+  mixin NodeConstructor;
   mixin ListenerBody;
 
   private {
