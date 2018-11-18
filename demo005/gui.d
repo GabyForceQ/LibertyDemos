@@ -7,7 +7,7 @@ import controller;
  * Example class for player.
 **/
 final class HUD : Surface {
-  mixin(NodeBody);
+  mixin SceneNodeBody;
 
   private {
     Button[10][10] button;

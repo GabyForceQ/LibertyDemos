@@ -6,8 +6,8 @@ import liberty.engine;
  * Example class for player.
 **/
 final class HUD : Surface {
-  mixin(NodeBody);
-  mixin(ListenerBody);
+  mixin SceneNodeBody;
+  mixin ListenerBody;
 
   private {
     Button button;
@@ -35,8 +35,8 @@ final class HUD : Surface {
       .toggleMaterials([Material.getDefault()], [pyramidMaterial]);
   }
 
-  @Signal!Button("Button1", ButtonEvent.MouseLeftClick)
-  @Signal!Button("Button1", ButtonEvent.MouseMiddleClick)
+  @Signal!Button("Button1", Event.MouseLeftClick)
+  @Signal!Button("Button1", Event.MouseMiddleClick)
   private void spawnCube(Widget sender, Event e) {
     spawnOnce!BSPCube("cube", (self) {
       self
