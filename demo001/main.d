@@ -14,9 +14,11 @@ mixin(EngineRun);
 void libertyMain() {
   new Scene(new SceneSerializer("res/demo001.lyasset"))
     .getTree()
-    .spawn!Player("Player", false)
-    .getScene()
-    .register();
+    .spawn!(Player, false)("Player", (self) {
+      self
+        .getScene()
+        .register();
+    });
 
   CoreEngine.enableVSync();
 }

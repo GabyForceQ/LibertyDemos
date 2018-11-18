@@ -2,4 +2,3 @@ id: Demo001Scene
 Terrain: { id: Demo001Terrain , size: 40.0 , maxHeight: 0.0 , materials: [ res/textures/default.bmp , res/textures/blendMap.bmp , res/textures/default.bmp , res/textures/default.bmp , res/textures/default.bmp ] }
 PointLight: { id: Demo001PointLight1 }
 PointLight: { id: Demo001PointLight2 }
-Player: { id: Player }

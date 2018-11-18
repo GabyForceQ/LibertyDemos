@@ -1,8 +1,8 @@
 module main;
 
 import liberty.engine;
-
-import surface;
+import gui;
+import profiles;
 
 mixin(EngineRun);
 
@@ -12,11 +12,17 @@ mixin(EngineRun);
  * then register the scene to the engine.
 **/
 void libertyMain() {
+  createInputProfile1();
+  
   new Scene(new SceneSerializer("res/demo004.lyasset"))
     .getTree()
-    .spawn!HUD("DemoHUD", false)
-    .getScene()
-    .register();
+    .spawn!(HUD, false)("DemoHUD", (self) {
+      self
+        .getScene()
+        .register()
+        .getActiveCamera()
+        .setMouseMoveLocked();
+    });
 
   CoreEngine.enableVSync();
 }

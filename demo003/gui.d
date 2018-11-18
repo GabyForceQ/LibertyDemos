@@ -10,7 +10,6 @@ final class HUD : Surface {
   mixin(ListenerBody);
 
   private {
-    SceneNode tree;
     Button button;
     Material pyramidMaterial;
     Material buttonMaterial;
@@ -21,17 +20,15 @@ final class HUD : Surface {
    * If declared, it is called after all objects instantiation.
   **/
   override void start() {
-    tree = getScene().getTree();
     pyramidMaterial = new Material("res/textures/mud.bmp");
     buttonMaterial = new Material("res/textures/default2.bmp");
     button = new Button("Button1", this);
 
-    getScene().getActiveCamera().setMouseMoveLocked();
     startListening();
   }
 
-  @Signal!Button("Button1", ButtonEvent.MouseInside)
-  private void toggleMaterials() {
+  @Signal!Button("Button1", Event.MouseOver)
+  private void toggleMaterials(Widget sender, Event e) {
     button
       .getRenderer()
       .getModel()
@@ -40,11 +37,14 @@ final class HUD : Surface {
 
   @Signal!Button("Button1", ButtonEvent.MouseLeftClick)
   @Signal!Button("Button1", ButtonEvent.MouseMiddleClick)
-  private void spawnCube() {
-    spawnOnce!BSPCube("cube")
-      .getTransform()
-      .setRelativeLocationY(1.0f)
-      .setPivotY(-0.5f);
+  private void spawnCube(Widget sender, Event e) {
+    spawnOnce!BSPCube("cube", (self) {
+      self
+        .build()
+        .getTransform()
+        .setRelativeLocationY(1.0f)
+        .setPivotY(-0.5f);
+    });
   }
 
   /**
@@ -54,28 +54,28 @@ final class HUD : Surface {
   override void update() {
     super.update();
 
-    if (Input.isKeyDown(KeyCode.T))
+    if (Input.getKeyboard().isButtonDown(KeyboardButton.T))
       GfxEngine.toggleWireframe();
 
-    if (Input.isKeyDown(KeyCode.NUM_5))
+    if (Input.getKeyboard().isButtonDown(KeyboardButton.NUM_5))
       button.getTransform.setPosition(10, 10);
 
-    if (Input.isKeyHold(KeyCode.NUM_1))
+    if (Input.getKeyboard().isButtonHold(KeyboardButton.NUM_1))
       button.getTransform.setExtent!"+="(10, 10);
 
-    if (Input.isKeyHold(KeyCode.NUM_2))
+    if (Input.getKeyboard().isButtonHold(KeyboardButton.NUM_2))
       button.getTransform.setExtent!"-="(10, 10);
 
-    if (Input.isKeyHold(KeyCode.LEFT))
+    if (Input.getKeyboard().isButtonHold(KeyboardButton.LEFT))
       button.getTransform.setPosition!"+="(Vector2I.left);
-    if (Input.isKeyHold(KeyCode.RIGHT))
+    if (Input.getKeyboard().isButtonHold(KeyboardButton.RIGHT))
       button.getTransform.setPosition!"+="(Vector2I.right);
-    if (Input.isKeyHold(KeyCode.UP))
+    if (Input.getKeyboard().isButtonHold(KeyboardButton.UP))
       button.getTransform.setPosition!"+="(Vector2I.up);
-    if (Input.isKeyHold(KeyCode.DOWN))
+    if (Input.getKeyboard().isButtonHold(KeyboardButton.DOWN))
       button.getTransform.setPosition!"+="(Vector2I.down);
 
-    if (Input.isKeyDown(KeyCode.F))
+    if (Input.getKeyboard().isButtonDown(KeyboardButton.F))
       Platform.getWindow().toggleFullscreen();
   }
 }

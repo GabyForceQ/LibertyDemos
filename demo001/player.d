@@ -44,7 +44,7 @@ final class Player : SceneNode {
       .getTransform()
       .rotateYaw(45.0f);
 
-    foreach (i; 0..50)
+    foreach (i; 0..10)
       tree.spawn!BSPCube("Block" ~ i.to!string)
         .build()
         .getTransform()
@@ -60,7 +60,7 @@ final class Player : SceneNode {
   override void update() {
     //Logger.exception(getScene().getId());
 
-    if (Input.isKeyDown(KeyCode.T))
+    if (Input.getKeyboard().isButtonDown(KeyboardButton.T))
       GfxEngine.toggleWireframe();
 
     updateMouseMode();
@@ -70,72 +70,75 @@ final class Player : SceneNode {
     if (getTransform().getAbsoluteLocation().y < killZ)
       CoreEngine.pause();
 
-    if (Input.isKeyDown(KeyCode.F))
+    if (Input.getKeyboard().isButtonDown(KeyboardButton.F))
       Platform.getWindow().toggleFullscreen();
+
+    if (Input.getKeyboard().isButtonDown(KeyboardButton.L))
+      getScene().getSerializer().serialize();
   }
 
   private void updateMouseMode() {
-    if (Input.isMouseButtonHold(MouseButton.RIGHT)) {
+    if (Input.getMouse().isButtonHold(MouseButton.RIGHT)) {
       camera.setMouseMoveLocked(false);
-      Input.setMode(CursorType.DISABLED);
+      Input.getMouse().setCursorType(CursorType.DISABLED);
     }
     
-    if (Input.isMouseButtonUp(MouseButton.RIGHT)) {
+    if (Input.getMouse().isButtonUp(MouseButton.RIGHT)) {
       camera.setMouseMoveLocked();
-      Input.setMode(CursorType.NORMAL);
+      Input.getMouse().setCursorType(CursorType.NORMAL);
     }
   }
 
   private void updateBody() {
     const float deltaTime = Time.getDelta();
 
-    if (Input.isKeyHold(KeyCode.A)) {
+    if (Input.getKeyboard().isButtonHold(KeyboardButton.A)) {
       getTransform().setAbsoluteLocationX!"+="(-moveSpeed * deltaTime);
       playerBody[1]
         .getTransform()
         .rotateYaw!"-="(300.0f * deltaTime);
     }
 
-    if (Input.isKeyHold(KeyCode.D)) {
+    if (Input.getKeyboard().isButtonHold(KeyboardButton.D)) {
       getTransform().setAbsoluteLocationX!"+="(moveSpeed * deltaTime);
       playerBody[1]
         .getTransform()
         .rotateYaw!"+="(300.0f * deltaTime);
     }
     
-    if (Input.isKeyHold(KeyCode.W))
+    if (Input.getKeyboard().isButtonHold(KeyboardButton.W))
       getTransform().setAbsoluteLocationZ!"+="(-moveSpeed * deltaTime);
 
-    if (Input.isKeyHold(KeyCode.S))
+    if (Input.getKeyboard().isButtonHold(KeyboardButton.S))
       getTransform().setAbsoluteLocationZ!"+="(moveSpeed * deltaTime);
 
-    if (Input.isKeyHold(KeyCode.NUM_1))
+    if (Input.getKeyboard().isButtonHold(KeyboardButton.NUM_1))
       getTransform().rotateYaw!"+="(1.0f);
-    if (Input.isKeyHold(KeyCode.NUM_2))
+    if (Input.getKeyboard().isButtonHold(KeyboardButton.NUM_2))
       getTransform().rotatePitch!"+="(1.0f);
-    if (Input.isKeyHold(KeyCode.NUM_3))
+    if (Input.getKeyboard().isButtonHold(KeyboardButton.NUM_3))
       getTransform().rotateRoll!"+="(1.0f);
 
-    if (Input.isKeyHold(KeyCode.NUM_4))
+    if (Input.getKeyboard().isButtonHold(KeyboardButton.NUM_4))
       getTransform().setAbsoluteScale!"+="(1.0f * deltaTime);
-    if (Input.isKeyHold(KeyCode.NUM_5))
+    if (Input.getKeyboard().isButtonHold(KeyboardButton.NUM_5))
       getTransform().setAbsoluteScale!"-="(1.0f * deltaTime);
 
-    if (Input.isKeyHold(KeyCode.NUM_6))
+    if (Input.getKeyboard().isButtonHold(KeyboardButton.NUM_6))
       camera.setZNear!"+="(3.0f * deltaTime);
-    if (Input.isKeyHold(KeyCode.NUM_7))
+    if (Input.getKeyboard().isButtonHold(KeyboardButton.NUM_7))
       camera.setZNear!"-="(3.0f * deltaTime);
 
-    if (Input.isKeyHold(KeyCode.NUM_8))
+    if (Input.getKeyboard().isButtonHold(KeyboardButton.NUM_8))
       camera.setZFar(20.0f);
 
-    if (Input.isKeyHold(KeyCode.NUM_9))
+    if (Input.getKeyboard().isButtonHold(KeyboardButton.NUM_9))
       camera.setFieldOfView!"+="(20.0f * deltaTime);
 
-    if (Input.isKeyHold(KeyCode.NUM_0))
+    if (Input.getKeyboard().isButtonHold(KeyboardButton.NUM_0))
       camera.setFieldOfView!"-="(20.0f * deltaTime);
 
-    if (Input.isKeyHold(KeyCode.SPACE) && onGround)
+    if (Input.getKeyboard().isButtonHold(KeyboardButton.SPACE) && onGround)
       upSpeed = jumpPower;
   }
 

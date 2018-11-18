@@ -1,6 +1,7 @@
 module main;
 
 import liberty.engine;
+import gui;
 
 mixin(EngineRun);
 
@@ -11,7 +12,14 @@ mixin(EngineRun);
 **/
 void libertyMain() {
   new Scene(new SceneSerializer("res/demo001.lyasset"))
-    .register();
+    .getTree()
+    .spawn!(HUD, false)("DemoHUD", (self) {
+      self
+        .getScene()
+        .register()
+        .getActiveCamera()
+        .setMouseMoveLocked();
+    });
 
   CoreEngine.enableVSync();
 }

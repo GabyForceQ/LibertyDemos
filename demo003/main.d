@@ -14,9 +14,13 @@ mixin(EngineRun);
 void libertyMain() {
   new Scene(new SceneSerializer("res/demo003.lyasset"))
     .getTree()
-    .spawn!HUD("DemoHUD", false)
-    .getScene()
-    .register();
-
+    .spawn!(HUD, false)("DemoHUD", (self) {
+      self
+        .getScene()
+        .register()
+        .getActiveCamera()
+        .setMouseMoveLocked();
+    });
+    
   CoreEngine.enableVSync();
 }

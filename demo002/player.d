@@ -37,7 +37,7 @@ final class Player : SceneNode {
       .getTransform()
       .setPivotY(-0.5f);
 
-    Input.setMode(CursorType.DISABLED);
+    Input.getMouse().setCursorType(CursorType.DISABLED);
   }
 
   /**
@@ -45,13 +45,13 @@ final class Player : SceneNode {
    * If declared, it is called every frame.
   **/
   override void update() {
-    if (Input.isKeyDown(KeyCode.T))
+    if (Input.getKeyboard().isButtonDown(KeyboardButton.T))
       GfxEngine.toggleWireframe();
 
     updateBody();
     updatePhysics();
 
-    if (Input.isKeyDown(KeyCode.ENTER)) {
+    if (Input.getKeyboard().isButtonDown(KeyboardButton.ENTER)) {
       playerBody
         .getRenderer()
         .getModel()
@@ -66,26 +66,26 @@ final class Player : SceneNode {
     if (getTransform().getAbsoluteLocation().y < killZ)
       CoreEngine.pause();
 
-    if (Input.isKeyDown(KeyCode.F))
+    if (Input.getKeyboard().isButtonDown(KeyboardButton.F))
       Platform.getWindow().toggleFullscreen();
   }
 
   private void updateBody() {
     const float deltaTime = Time.getDelta();
 
-    if (Input.isKeyHold(KeyCode.LEFT))
+    if (Input.getKeyboard().isButtonHold(KeyboardButton.LEFT))
       getTransform().setAbsoluteLocationX!"+="(-moveSpeed * deltaTime);
 
-    if (Input.isKeyHold(KeyCode.RIGHT))
+    if (Input.getKeyboard().isButtonHold(KeyboardButton.RIGHT))
       getTransform().setAbsoluteLocationX!"+="(moveSpeed * deltaTime);
     
-    if (Input.isKeyHold(KeyCode.UP))
+    if (Input.getKeyboard().isButtonHold(KeyboardButton.UP))
       getTransform().setAbsoluteLocationZ!"+="(-moveSpeed * deltaTime);
 
-    if (Input.isKeyHold(KeyCode.DOWN))
+    if (Input.getKeyboard().isButtonHold(KeyboardButton.DOWN))
       getTransform().setAbsoluteLocationZ!"+="(moveSpeed * deltaTime);
 
-    if (Input.isKeyHold(KeyCode.SPACE) && onGround)
+    if (Input.getKeyboard().isButtonHold(KeyboardButton.SPACE) && onGround)
       upSpeed = jumpPower;
   }
 

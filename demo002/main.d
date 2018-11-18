@@ -14,19 +14,23 @@ mixin(EngineRun);
 void libertyMain() {
   new Scene(new SceneSerializer("res/demo002.lyasset"))
     .getTree()
-    .spawn!Terrain("DemoTerrain")
-    .build(800.0f, 20.0f, [
-      new Material("res/textures/grass.bmp"),
-      new Material("res/textures/blendMap.bmp"),
-      new Material("res/textures/mud.bmp"),
-      new Material("res/textures/grassFlowers.bmp"),
-      new Material("res/textures/path.bmp")
-    ])
+    .spawn!Terrain("DemoTerrain", (self) {
+      self
+        .build(800.0f, 20.0f, [
+          new Material("res/textures/grass.bmp"),
+          new Material("res/textures/blendMap.bmp"),
+          new Material("res/textures/mud.bmp"),
+          new Material("res/textures/grassFlowers.bmp"),
+          new Material("res/textures/path.bmp")
+        ]);
+    })
     .getScene()
     .getTree()
-    .spawn!Player("Player", false)
-    .getScene()
-    .register();
+    .spawn!(Player, false)("Player", (self) {
+      self
+        .getScene()
+        .register();
+    });
 
   CoreEngine.enableVSync();
 }
