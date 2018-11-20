@@ -36,7 +36,6 @@ final class HUD : Surface {
   }
 
   @Signal!Button("Button1", Event.MouseLeftClick)
-  @Signal!Button("Button1", Event.MouseMiddleClick)
   private void spawnCube(Widget sender, Event e) {
     spawnOnce!BSPCube("cube", (self) {
       self
@@ -53,29 +52,5 @@ final class HUD : Surface {
   **/
   override void update() {
     super.update();
-
-    if (Input.getKeyboard().isButtonDown(KeyboardButton.T))
-      GfxEngine.toggleWireframe();
-
-    if (Input.getKeyboard().isButtonDown(KeyboardButton.NUM_5))
-      button.getTransform.setPosition(10, 10);
-
-    if (Input.getKeyboard().isButtonHold(KeyboardButton.NUM_1))
-      button.getTransform.setExtent!"+="(10, 10);
-
-    if (Input.getKeyboard().isButtonHold(KeyboardButton.NUM_2))
-      button.getTransform.setExtent!"-="(10, 10);
-
-    if (Input.getKeyboard().isButtonHold(KeyboardButton.LEFT))
-      button.getTransform.setPosition!"+="(Vector2I.left);
-    if (Input.getKeyboard().isButtonHold(KeyboardButton.RIGHT))
-      button.getTransform.setPosition!"+="(Vector2I.right);
-    if (Input.getKeyboard().isButtonHold(KeyboardButton.UP))
-      button.getTransform.setPosition!"+="(Vector2I.up);
-    if (Input.getKeyboard().isButtonHold(KeyboardButton.DOWN))
-      button.getTransform.setPosition!"+="(Vector2I.down);
-
-    if (Input.getKeyboard().isButtonDown(KeyboardButton.F))
-      Platform.getWindow().toggleFullscreen();
   }
 }

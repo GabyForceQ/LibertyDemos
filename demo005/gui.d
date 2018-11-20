@@ -30,8 +30,8 @@ final class HUD : Surface {
         (button[i][j] = new Button("Button[" ~ i.to!string ~ "][" ~ j.to!string ~ "]", this))
           .setIndex(i, j)
           .getTransform()
-          .setPosition(100 + i * 50, 100 + j * 50)
-          .setExtent(50, 50);
+          .setLocation(100 + i * 50, 100 + j * 50)
+          .setScale(50, 50);
         button[i][j].getRenderer().getModel().setMaterials([greyMaterial]);
         leftClickEvents ~= tuple(button[i][j], Event.MouseLeftClick);
         mouseOverEvents ~= tuple(button[i][j], Event.MouseOver);

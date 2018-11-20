@@ -13,6 +13,8 @@ final class HUD : Surface {
     Material[2] materials;
     Vector2I pos = Vector2I.zero;
     InputProfiler profile1;
+
+    CheckBox checkBox;
   }
 
   /**
@@ -33,6 +35,42 @@ final class HUD : Surface {
       .getRenderer()
       .getModel()
       .setMaterials([materials[0]]);
+
+    checkBox = new CheckBox("MyCheckBox", this);
+
+    auto btn = new CustomButton!([])("MyCBtn", this);
+
+    btn
+      .getTransform()
+      .setLocation(600, 600);
+
+    /*addAction("LC", (sender, event) {
+      Logger.exception("LEFT CLICK");
+    }, [tuple(btn, Event.MouseLeftClick)]);
+
+    addAction("RC", (sender, event) {
+      Logger.exception("RIGHT CLICK");
+    }, [tuple(btn, Event.MouseRightClick)]);*/
+
+    addAction("Check", (sender, event) {
+      Logger.exception("Just checked!");
+    }, [tuple(checkBox, Event.Check)]);
+
+    addAction("UnCheck", (sender, event) {
+      Logger.exception("Just unchecked!");
+    }, [tuple(checkBox, Event.Uncheck)]);
+    
+    addAction("Change", (sender, event) {
+      Logger.exception("State changed!");
+    }, [tuple(checkBox, Event.StateChange)]);
+
+    addAction("IsCheck", (sender, event) {
+      //Logger.exception("vvvvvvvvvvvvvvvvvvvvvvvvvv");
+    }, [tuple(checkBox, Event.Checked)]);
+
+    addAction("IsUnCheck", (sender, event) {
+      //Logger.exception("xxxxxxxxxxxxxxxxxxxxxxxxxx");
+    }, [tuple(checkBox, Event.Unchecked)]);
 
     addAction("ChangeMaterial", (sender, event) {
       tileMap.getTile(sender.getIndex())
