@@ -13,7 +13,7 @@ final class Player : SceneNode {
     Material pyramidMaterial;
     Camera camera;
     BSPPyramid playerBody;
-    //CubeMap skybox;
+    CubeMap skybox;
 
     float gravity = -80.0f;
     float jumpPower = 20.0f;
@@ -38,15 +38,15 @@ final class Player : SceneNode {
       .getTransform()
       .setPivotY(-0.5f);
 
-    /*(skybox = spawn!CubeMap("Sky"))
+    (skybox = spawn!CubeMap("Sky"))
       .build(new Material([
         "res/textures/skybox/right.bmp",
         "res/textures/skybox/left.bmp",
-        "res/textures/skybox/top.bmp",
         "res/textures/skybox/bottom.bmp",
+        "res/textures/skybox/top.bmp",
         "res/textures/skybox/back.bmp",
         "res/textures/skybox/front.bmp"
-      ]));*/
+      ]));
 
     Input.getMouse().setCursorType(CursorType.DISABLED);
   }

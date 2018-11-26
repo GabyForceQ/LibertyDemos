@@ -140,6 +140,14 @@ final class Player : SceneNode {
 
     if (Input.getKeyboard().isButtonHold(KeyboardButton.SPACE) && onGround)
       upSpeed = jumpPower;
+
+    if (Input.getKeyboard().isButtonDown(KeyboardButton.LEFT_CONTROL))
+      playerBody[1]
+        .setVisibility(Visibility.Hidden);
+
+    if (Input.getKeyboard().isButtonDown(KeyboardButton.RIGHT_CONTROL))
+      playerBody[1]
+        .setVisibility(Visibility.Visible);
   }
 
   private void updatePhysics() {
