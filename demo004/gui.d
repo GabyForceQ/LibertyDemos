@@ -28,11 +28,10 @@ final class HUD : Surface {
     ];
 
     (tileMap = new TileMap("MyTileMap", this))
-      .build(50, 50, 6, 4)
+      .build(50, 50, 6, 4, 100, 100)
       .createMouseEnterEvent()
       .createMouseLeaveEvent()
       .getTile(pos)
-      .getRenderer()
       .getModel()
       .setMaterials([materials[0]]);
 
@@ -74,14 +73,12 @@ final class HUD : Surface {
 
     addAction("ChangeMaterial", (sender, event) {
       tileMap.getTile(sender.getIndex())
-        .getRenderer()
         .getModel()
         .setMaterials([materials[0]]);
     }, tileMap.getMouseEnterEvent());
 
     addAction("RestoreMaterial", (sender, event) {
       tileMap.getTile(sender.getIndex())
-        .getRenderer()
         .getModel()
         .setMaterials([materials[1]]);
     }, tileMap.getMouseLeaveEvent());
@@ -112,12 +109,10 @@ final class HUD : Surface {
 
     if (pos != oldPos) {
       tileMap.getTile(pos)
-        .getRenderer()
         .getModel()
         .setMaterials([materials[0]]);
 
       tileMap.getTile(oldPos)
-        .getRenderer()
         .getModel()
         .setMaterials([materials[1]]);
     }

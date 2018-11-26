@@ -32,7 +32,7 @@ final class HUD : Surface {
           .getTransform()
           .setLocation(100 + i * 50, 100 + j * 50)
           .setScale(50, 50);
-        button[i][j].getRenderer().getModel().setMaterials([greyMaterial]);
+        button[i][j].getModel().setMaterials([greyMaterial]);
         leftClickEvents ~= tuple(button[i][j], Event.MouseLeftClick);
         mouseOverEvents ~= tuple(button[i][j], Event.MouseOver);
       }
@@ -41,34 +41,34 @@ final class HUD : Surface {
     addAction("ColorToRed", (sender, event) {
       foreach (btn; button)
         foreach (b; btn)
-          b.getRenderer().getModel().setMaterials([greyMaterial]);
+          b.getModel().setMaterials([greyMaterial]);
 
       const x = sender.getIndex().x;
       const y = sender.getIndex().y;
 
       if (x != 0 && y != 0)
-        button[x - 1][y - 1].getRenderer().getModel().setMaterials([redMaterial]);
+        button[x - 1][y - 1].getModel().setMaterials([redMaterial]);
       
       if (x != 0)
-        button[x - 1][y].getRenderer().getModel().setMaterials([redMaterial]);
+        button[x - 1][y].getModel().setMaterials([redMaterial]);
       
       if (x != 0 && y != 9)
-        button[x - 1][y + 1].getRenderer().getModel().setMaterials([redMaterial]);
+        button[x - 1][y + 1].getModel().setMaterials([redMaterial]);
 
       if (x != 9 && y != 0)
-        button[x + 1][y - 1].getRenderer().getModel().setMaterials([redMaterial]);
+        button[x + 1][y - 1].getModel().setMaterials([redMaterial]);
       
       if (x != 9)
-        button[x + 1][y].getRenderer().getModel().setMaterials([redMaterial]);
+        button[x + 1][y].getModel().setMaterials([redMaterial]);
       
       if (x != 9 && y != 9)
-        button[x + 1][y + 1].getRenderer().getModel().setMaterials([redMaterial]);
+        button[x + 1][y + 1].getModel().setMaterials([redMaterial]);
 
       if (y != 0)
-        button[x][y - 1].getRenderer().getModel().setMaterials([redMaterial]);
+        button[x][y - 1].getModel().setMaterials([redMaterial]);
       
       if (y != 9)
-        button[x][y + 1].getRenderer().getModel().setMaterials([redMaterial]);
+        button[x][y + 1].getModel().setMaterials([redMaterial]);
       
     }, mouseOverEvents);
   }

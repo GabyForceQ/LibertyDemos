@@ -4,23 +4,16 @@ import liberty.engine;
 
 import gui;
 
-mixin(EngineRun);
-
-/**
- * Application main.
- * Create a new scene, then spawn a Player,
- * then register the scene to the engine.
-**/
-void libertyMain() {
+mixin EngineRun!(() {
   new Scene(new SceneSerializer("res/demo003.lyasset"))
     .getTree()
     .spawn!(HUD, false)("DemoHUD", (self) {
       self
         .getScene()
-        .register()
+        .initialize()
         .getActiveCamera()
         .setMouseMoveLocked();
     });
     
   CoreEngine.enableVSync();
-}
+}, () {});

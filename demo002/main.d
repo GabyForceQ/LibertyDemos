@@ -4,15 +4,9 @@ import liberty.engine;
 
 import player;
 
-mixin(EngineRun);
-
-/**
- * Application main.
- * Create a new scene, then spawn a Player,
- * then register the scene to the engine.
-**/
-void libertyMain() {
-  new Scene(new SceneSerializer("res/demo002.lyasset"))
+mixin EngineRun!(() {
+  Scene
+    .create("res/demo002.lyasset")
     .getTree()
     .spawn!Terrain("DemoTerrain", (self) {
       self
@@ -29,8 +23,8 @@ void libertyMain() {
     .spawn!(Player, false)("Player", (self) {
       self
         .getScene()
-        .register();
+        .initialize();
     });
 
   CoreEngine.enableVSync();
-}
+}, () {});

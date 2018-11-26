@@ -30,7 +30,6 @@ final class HUD : Surface {
   @Signal!Button("Button1", Event.MouseOver)
   private void toggleMaterials(Widget sender, Event e) {
     button
-      .getRenderer()
       .getModel()
       .toggleMaterials([Material.getDefault()], [pyramidMaterial]);
   }
