@@ -12,6 +12,7 @@ final class Player : SceneNode {
     SceneNode tree;
     Camera camera;
     BSPCube[3] playerBody;
+    CubeMap skybox;
 
     float gravity = -80.0f;
     float jumpPower = 20.0f;
@@ -51,6 +52,16 @@ final class Player : SceneNode {
         .setAbsoluteLocationX(uniform!"[]"(-19, 19))
         .setAbsoluteLocationZ(uniform!"[]"(-19, 19))
         .setPivotY(-0.5f);
+
+    (skybox = spawn!CubeMap("Sky"))
+      .build(new Material([
+        "res/textures/skybox/right.bmp",
+        "res/textures/skybox/left.bmp",
+        "res/textures/skybox/bottom.bmp",
+        "res/textures/skybox/top.bmp",
+        "res/textures/skybox/back.bmp",
+        "res/textures/skybox/front.bmp"
+      ]));
   }
 
   /**

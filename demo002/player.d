@@ -11,7 +11,6 @@ final class Player : SceneNode {
   private {
     SceneNode tree;
     Material pyramidMaterial;
-    Camera camera;
     BSPPyramid playerBody;
     CubeMap skybox;
 
@@ -31,7 +30,11 @@ final class Player : SceneNode {
     tree = getScene().getTree();
     pyramidMaterial = new Material("res/textures/mud.bmp");
 
-    getScene().getActiveCamera().getTransform().setAbsoluteLocationY(3.0f);
+    getScene()
+      .getActiveCamera()
+      .setMovementSpeed(50.0f)
+      .getTransform()
+      .setAbsoluteLocationY(3.0f);
     
     (playerBody = spawn!BSPPyramid("Body"))
       .build()

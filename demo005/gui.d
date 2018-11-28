@@ -15,6 +15,7 @@ final class HUD : Surface {
     Tuple!(Button, Event)[] mouseOverEvents;
     Material greyMaterial;
     Material redMaterial;
+    CubeMap skybox;
   }
 
   /**
@@ -71,6 +72,16 @@ final class HUD : Surface {
         button[x][y + 1].getModel().setMaterials([redMaterial]);
       
     }, mouseOverEvents);
+
+    (skybox = spawn!CubeMap("Sky"))
+      .build(new Material([
+        "res/textures/skybox/right.bmp",
+        "res/textures/skybox/left.bmp",
+        "res/textures/skybox/bottom.bmp",
+        "res/textures/skybox/top.bmp",
+        "res/textures/skybox/back.bmp",
+        "res/textures/skybox/front.bmp"
+      ]));
   }
 
   /**
